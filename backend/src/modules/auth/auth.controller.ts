@@ -13,7 +13,7 @@ import { logger } from '../../lib/winston';
 /**
  * Types
  */
-import type { SignupInput } from './auth.validation';
+import type { SignupInput } from './schemas/signup.schema';
 
 /**
  * Signup controller

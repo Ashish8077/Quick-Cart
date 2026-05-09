@@ -10,7 +10,7 @@ import { Router } from 'express';
 
 import { signup } from './auth.controller';
 import { validate } from '../../core/middleware/validate.middleware';
-import { registerSchema } from './auth.validation';
+import { signupSchema } from './schemas/signup.schema';
 
 /**
  * Router instance
@@ -26,8 +26,6 @@ const router = Router();
  * - Validates request body using Zod schema
  */
 
-router.post('/signup', validate(registerSchema), signup);
-// router.post('/login', login);
-// router.post('/logout', logout);
+router.post('/signup', validate({ body: signupSchema }), signup);
 
 export default router;
