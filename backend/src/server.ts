@@ -20,20 +20,21 @@ import config from './config';
 
 import limiter from './lib/express_rate_limit';
 
-import {
-  connectToDatabase,
-  disconnectFromDatabase,
-} from './lib/mongoose';
+import { connectToDatabase, disconnectFromDatabase } from './lib/mongoose';
 
 import { logger } from './lib/winston';
 
 import { errorMiddleware } from './core/middleware/error.middleware';
+
+import { setupSwagger } from './config/swagger';
 
 /**
  * Routes
  */
 
 import { authRoutes } from './modules/auth';
+
+import { AUTH_ROUTES } from './constants/routes';
 
 /**
  * Types
@@ -62,11 +63,7 @@ const corsOptions: CorsOptions = {
      * - whitelisted origins
      */
 
-    if (
-      config.NODE_ENV === 'development' ||
-      !origin ||
-      config.WHITELIST_ORIGINS.includes(origin)
-    ) {
+    if (config.NODE_ENV === 'development' || !origin || config.WHITELIST_ORIGINS.includes(origin)) {
       callback(null, true);
 
       return;
@@ -76,9 +73,7 @@ const corsOptions: CorsOptions = {
      * Reject non-whitelisted origins
      */
 
-    const corsError = new Error(
-      `CORS error: ${origin} is not allowed`
-    );
+    const corsError = new Error(`CORS error: ${origin} is not allowed`);
 
     logger.warn(corsError.message);
 
@@ -117,7 +112,7 @@ app.use(limiter);
  * API routes
  */
 
-app.use('/api/v1/auth', authRoutes);
+app.use(AUTH_ROUTES.AUTH.SIGNUP, authRoutes);
 
 /**
  * Health check route
@@ -129,6 +124,17 @@ app.get('/health', (_req, res) => {
     message: 'Server is healthy',
   });
 });
+
+/**
+ * Swagger API documentation
+ *
+ * Only mounted in non-production environments.
+ * Available at: http://localhost:<PORT>/docs
+ */
+
+if (config.NODE_ENV !== 'production') {
+  setupSwagger(app);
+}
 
 /**
  * Global error middleware
@@ -165,9 +171,7 @@ const bootstrap = async (): Promise<void> => {
      */
 
     server = app.listen(config.PORT, () => {
-      logger.info(
-        `Server started on http://localhost:${config.PORT}`
-      );
+      logger.info(`Server started on http://localhost:${config.PORT}`);
     });
   } catch (error) {
     logger.error('Failed to bootstrap application', {
