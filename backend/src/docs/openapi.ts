@@ -21,8 +21,7 @@ export const openApiDocument = generator.generateDocument({
   info: {
     title: 'Quick Cart API',
     version: '1.0.0',
-    description:
-      'RESTful API for the Quick Cart e-commerce platform. Built with Express, TypeScript, Zod, and OpenAPI.',
+    description: 'RESTful API for Quick Cart e-commerce platform',
   },
 
   servers: [

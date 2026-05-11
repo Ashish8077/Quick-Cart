@@ -13,13 +13,13 @@ import { z } from 'zod';
  * Request — POST /auth/signup
  */
 
-export const signupSchema = z
+export const signupRequestSchema = z
   .object({
     userName: z
       .string()
       .trim()
-      .min(3, 'Name must be at least 3 characters')
-      .max(50, 'Name cannot exceed 50 characters')
+      .min(3, 'Username must be at least 3 characters')
+      .max(50, 'Username cannot exceed 50 characters')
       .openapi({ example: 'JohnDoe' }),
 
     email: z
@@ -47,8 +47,6 @@ export const signupSchema = z
   })
   .openapi('SignupRequest');
 
-export type SignupInput = z.infer<typeof signupSchema>;
-
 /**
  * Response — POST /auth/signup
  */
@@ -61,4 +59,5 @@ export const signupResponseSchema = z
   })
   .openapi('SignupResponse');
 
+export type SignupRequest = z.infer<typeof signupRequestSchema>;
 export type SignupResponse = z.infer<typeof signupResponseSchema>;

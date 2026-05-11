@@ -18,8 +18,28 @@ import type { ConnectOptions } from 'mongoose';
 import { logger } from './winston';
 
 /**
- * Client  option
+ * Global Mongoose plugin
+ *
+ * Applies to every schema automatically — no per-model config needed.
+ *
+ * - Renames _id → id (string form via Mongoose's built-in id virtual)
+ * - Removes __v (internal version key)
+ *
+ * Schema-specific sensitive fields (password, tokens, etc.)
+ * are handled individually per schema using select: false
+ * and a schema-level toJSON transform where needed.
  */
+
+mongoose.plugin((schema) => {
+  schema.set('toJSON', {
+    virtuals: true, // enables the built-in 'id' virtual (string of _id)
+    versionKey: false, // removes __v
+    transform: (_doc, ret: Record<string, unknown>) => {
+      delete ret['_id']; // id is already present via virtuals: true
+      return ret;
+    },
+  });
+});
 
 const clientOptions: ConnectOptions = {
   dbName: 'quickcart-db',

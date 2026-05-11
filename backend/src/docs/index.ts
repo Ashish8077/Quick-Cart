@@ -9,7 +9,7 @@
 
 import './security';
 
-import '../modules/auth/auth.docs';
+import '../modules/auth/docs/auth.docs';
 // import '../modules/product/product.docs';
 // import '../modules/order/order.docs';
 // import '../modules/user/user.docs';
