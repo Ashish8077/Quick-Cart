@@ -11,6 +11,7 @@ const config = {
   WHITELIST_ORIGINS: ['https://docs.blog-api.ashishpawar.com'],
   MONGO_URI: process.env.MONGO_URI,
   LOG_LEVEL: process.env.LOG_LEVEL || 'info',
+  FRONTEND_URL: process.env.FRONTEND_URL,
 };
 
 export default config;

@@ -8,9 +8,9 @@ import { Router } from 'express';
  * Custom modules
  */
 
-import { signup } from './auth.controller';
-import { validate } from '../../core/middleware/validate.middleware';
-import { signupSchema } from './schemas/signup.schema';
+import { signup } from '../controllers/auth.controller';
+import { validate } from '../../../core/middleware/validate.middleware';
+import { signupSchema } from '../schemas/signup.schema';
 
 /**
  * Router instance

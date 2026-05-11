@@ -1,3 +1,12 @@
-export { default as authRoutes } from './auth.routes';
+export { signupService } from './services/auth.service';
 
-export type { SignupRequest } from './auth.dto';
+export { createUser, findUserByEmailOrUsername } from './repositories/auth.repository';
+
+export {
+  signupRequestSchema,
+  signupResponseSchema,
+  type SignupRequest,
+  type SignupResponse,
+} from './schemas/signup.schema';
+
+export type { CreateUserPayload } from './types/auth.types';
